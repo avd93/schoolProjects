@@ -1,2 +1,2 @@
 # schoolProjects
-A collection of school assignments
+A collection of smaller school assignments
