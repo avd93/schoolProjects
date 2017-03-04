@@ -28,8 +28,6 @@ my %bigram = ();
 
 # This loops through each line of the file
 while($line = <INFILE>) {
-	# YOUR CODE BELOW...
-	
 	#match each song title to the string after three <SEP>'s and before a new line	
 	if ($line =~ m/<SEP>.+<SEP>.+<SEP>(.+)\n/){
 		$title = "$1";
@@ -69,7 +67,6 @@ while($line = <INFILE>) {
 
 		#filter out titles with non-English characters
 		if ($title !~ m/[^[:ascii:]]/g){
-		#m/^[\w0-9\s]+$/
 	
 			#convert all song titles to lowercase
 			$title =~ tr/A-Z/a-z/;
@@ -93,10 +90,11 @@ while($line = <INFILE>) {
 		
 
 			#isolate each word in a title and store bi-grams in a hash of hashes
+			# and include a count of the number of times each bi-gram occurs in a title
 			@words = split(/ /, $title);
 			for (my $i = 0; $i < $#words; $i++){
-				#check for keys already entered to avoid overwriting any
-				# then set subsequent adjacent array indices as each subsequent hash's key respectively
+				#check for keys already entered to avoid double counting
+				# then set subsequent adjacent array value as each subsequent hash's key respectively
 				if (exists $bigram{$words[$i]}){
 					if (exists $bigram{$words[$i]}{$words[$i+1]}){
 						$bigram{$words[$i]}{$words[$i + 1]} += 1;
@@ -150,13 +148,9 @@ sub mcw {
 	my ($wordIn) = @_;
 	my $count = 0;
 	my $mostCommon;
-	my $i = 0;
 	
 	#checks the number of times each word following wordIn occurs
 	for my $k2 (keys %bigram->{$wordIn}){
-		$i++;
-		#print "$i. $wordIn $k2\n";
-		
 		#count stores the greatest number of a word's occurrence after wordIn
 		# and $k2 holds the word acting as the key of the greatest number of occurrences
 		if($count < $bigram{$wordIn}{$k2}){
@@ -164,7 +158,7 @@ sub mcw {
 			$mostCommon = $k2;
 		}
 	}
-		#decides on random values which word is returned
+		#tie breaker decides which word is returned based on random values
 		if($count == $bigram{$wordIn}{$k2}){
 			$rand1 = rand();
 			$rand2 = rand();
@@ -176,7 +170,6 @@ sub mcw {
 				$mostCommon = $k2;
 			}
 		}
-	#print "$mostCommon occurs $count times\n";
 	return $mostCommon;
 }
 	
@@ -190,7 +183,6 @@ sub probableTitle {
 	#while loop quits if the title isn't less than 20 words 
 	# and if it doesn't have a subsequent word
 	while ($i < 20 && exists $bigram{$startWord}){	
-		#print "$i.";
 		print "$title[$i] ";
 		$startWord = mcw($startWord);
 		$i++;

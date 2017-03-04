@@ -43,9 +43,7 @@ my $partition = definePartition($cap, $numLines);
 my @fileSelection = ();
 # Loop file to roughly sample along the partition defined
 while($line = <INFILE>) {
-	if($counter % $partition == 0){
-		#printf("$counter mod $partition = %d\n", $counter % $partition); 
-		print "counter = $counter\n";
+	if($counter % $partition == 0){ 
 		push(@fileSelection, $line);
 	}
 	$counter ++;
