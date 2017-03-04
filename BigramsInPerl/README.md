@@ -8,6 +8,7 @@ and Organization of Speech and Audio at Columbia University). Next use a hash of
 >The script allows a user to enter a word and see the most probable song title to follow the word entered, up to 20 words per probable title. 
 
 >To run: perl wordBigrams.pl filepath/inputFile.txt
+
 >Test files included in this repo are a_tracks.txt- only track names beginning with 'a'- and unique_tracks_selected.txt- a sampling of 1000 song titles from the original data set.
 
 ##Valuable Concepts Learned through this Exercise
